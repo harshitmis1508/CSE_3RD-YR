@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Front Camera Access</title>
+    <style>
+      video {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Start Front Camera</h1>
+    <button id="start-camera">Start Camera</button>
+    <video id="camera-stream" autoplay playsinline></video>
+
+    <script>
+      const videoElement = document.getElementById("camera-stream");
+      const startCameraButton = document.getElementById("start-camera");
+
+      startCameraButton.addEventListener("click", async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: { ideal: "user" }, // This targets the front camera
+            },
+          });
+          videoElement.srcObject = stream;
+        } catch (error) {
+          console.error("Error accessing the camera: ", error);
+          alert(
+            "Unable to access the camera. Please check permissions or camera availability."
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
